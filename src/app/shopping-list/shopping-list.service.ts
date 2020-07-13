@@ -25,4 +25,9 @@ export class ShoppingListService {
   private emitIngredientsChangedEvent(): void {
     this.ingredientsChangedEvent.emit(this.getIngredients());
   }
+
+  addIngredients(ingredients: Ingredient[]): void {
+    this.ingredients.push(...ingredients);
+    this.emitIngredientsChangedEvent();
+  }
 }

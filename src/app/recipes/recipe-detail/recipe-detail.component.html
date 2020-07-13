@@ -21,9 +21,11 @@
           type="button">Manage recipe</button>
 
       <div class="dropdown-menu">
-        <a href="#" class="dropdown-item">To shopping list</a>
-        <a href="#" class="dropdown-item">Edit recipe</a>
-        <a href="#" class="dropdown-item">Delete recipe</a>
+        <a class="dropdown-item"
+            (click)="onAddToShoppingList()">To shopping list</a>
+
+        <a class="dropdown-item">Edit recipe</a>
+        <a class="dropdown-item">Delete recipe</a>
       </div>
     </div>
   </div>
