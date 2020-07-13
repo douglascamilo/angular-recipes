@@ -14,5 +14,4 @@ export class ServersComponent implements OnInit {
   ngOnInit() {
     this.servers = this.serversService.getServers();
   }
-
 }
