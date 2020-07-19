@@ -6,9 +6,4 @@ import { Component } from '@angular/core';
   styleUrls: [ './app.component.css' ]
 })
 export class AppComponent {
-  public itemClicked: string;
-
-  onItemHeaderClicked(itemClicked: string): void {
-    this.itemClicked = itemClicked;
-  }
 }
