@@ -15,7 +15,7 @@ export class IsRecipeIdValidService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const recipeId = route.params.id;
-    const recipe = this.recipeService.getRecipe(recipeId);
+    const recipe = this.recipeService.getRecipe(Number(recipeId));
 
     if (!recipe) {
       this.router.navigate([ '..' ], { relativeTo: this.activatedRoute });

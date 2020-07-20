@@ -33,6 +33,6 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
 
   private loadSelectedRecipe(params: Params): void {
     const recipeId = params.id;
-    this.recipe = this.recipeService.getRecipe(recipeId);
+    this.recipe = this.recipeService.getRecipe(Number(recipeId));
   }
 }
