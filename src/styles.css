@@ -5,3 +5,7 @@
 .mh-300-px {
   max-height: 300px;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
