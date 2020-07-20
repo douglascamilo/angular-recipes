@@ -8,7 +8,8 @@
   <div class="col-12">
 
     <app-recipe-item
-        *ngFor="let recipeItem of recipes"
-        [recipe]="recipeItem"></app-recipe-item>
+        *ngFor="let recipeItem of recipes; let recipeId = index"
+        [recipe]="recipeItem"
+        [recipeId]="recipeId"></app-recipe-item>
   </div>
 </div>

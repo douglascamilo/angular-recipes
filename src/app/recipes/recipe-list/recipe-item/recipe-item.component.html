@@ -1,6 +1,6 @@
 <a
     class="list-group-item clearfix cursor-pointer"
-    (click)="onSelected()">
+    [routerLink]="[recipeId]">
 
   <div class="float-left mt-2 mh-70-px">
     <h4 class="list-group-item-action">{{ recipe.name }}</h4>
