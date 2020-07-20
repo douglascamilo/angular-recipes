@@ -19,10 +19,8 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.subscription = this.route.params.subscribe((params: Params) => {
-      const recipeId = params.id;
-      this.recipe = this.recipeService.getRecipe(recipeId);
-    });
+    this.subscription = this.route.params
+      .subscribe((params: Params) => this.loadSelectedRecipe(params));
   }
 
   ngOnDestroy(): void {
@@ -31,5 +29,10 @@ export class RecipeDetailComponent implements OnInit, OnDestroy {
 
   onAddToShoppingList(): void {
     this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
+  }
+
+  private loadSelectedRecipe(params: Params): void {
+    const recipeId = params.id;
+    this.recipe = this.recipeService.getRecipe(recipeId);
   }
 }

@@ -4,7 +4,9 @@ import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/model/ingredient';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class RecipeService {
 
   private recipes: Recipe[] = [
@@ -39,6 +41,10 @@ export class RecipeService {
   }
 
   getRecipe(id: number): Recipe {
+    if (id < 0 || id > this.recipes.length) {
+      return null;
+    }
+
     return this.getRecipes()[id];
   }
 }

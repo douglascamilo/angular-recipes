@@ -4,13 +4,14 @@ import { RecipesComponent } from './recipes/recipes.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { NoSelectedRecipeComponent } from './recipes/no-selected-recipe/no-selected-recipe.component';
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
+import { IsRecipeIdValidService } from './recipes/resolver/is-recipe-id-valid.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'recipes', pathMatch: 'full' },
   { path: 'recipes', component: RecipesComponent, children:
       [
         { path: '', component: NoSelectedRecipeComponent },
-        { path: ':id', component: RecipeDetailComponent }
+        { path: ':id', component: RecipeDetailComponent, canActivate: [ IsRecipeIdValidService ] }
       ]
   },
   { path: 'shopping-list', component: ShoppingListComponent },
