@@ -1,15 +1,24 @@
 <a
     class="list-group-item clearfix cursor-pointer"
-    [routerLink]="[recipe.id]">
+    [routerLink]="[recipe.id]"
+    routerLinkActive="active">
 
-  <div class="float-left mt-2 mh-70-px">
-    <h4 class="list-group-item-action">{{ recipe.name }}</h4>
-    <p class="list-group-item-light">{{ recipe.description }}</p>
+  <div
+      class="float-left mt-2 mh-70-px">
+    <h4
+        class="list-group-item-action"
+        routerLinkActive="text-white">{{ recipe.name }}</h4>
+
+    <p
+        class="list-group-item-light bg-transparent"
+        routerLinkActive="text-white">{{ recipe.description }}</p>
   </div>
 
   <span class="float-right mt-1">
-    <img [src]="recipe.imagePath"
-        [alt]="recipe.name"
-        class="img-fluid mh-70-px">
+
+  <img
+      [src]="recipe.imagePath"
+      [alt]="recipe.name"
+      class="img-fluid mh-70-px">
   </span>
 </a>
