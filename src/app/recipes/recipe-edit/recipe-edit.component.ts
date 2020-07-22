@@ -7,8 +7,8 @@ import { ActivatedRoute, Params } from '@angular/router';
   styleUrls: ['./recipe-edit.component.css']
 })
 export class RecipeEditComponent implements OnInit {
-  private recipeId: number;
-  private editMode = false;
+  recipeId: number;
+  editMode = false;
 
   constructor(
     private route: ActivatedRoute
