@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           observer.complete();
         }
 
-        if (newValue > 3) {
+        if (newValue > 5) {
           observer.error(new Error('Value is greater than 3!'));
         }
 
@@ -28,11 +29,15 @@ export class HomeComponent implements OnInit, OnDestroy {
       }, 1000);
     });
 
-    this.customObservableSubscription = customIntervalObservable.subscribe(
-      (value: number) => console.log(value),
-      (error: Error) => alert('An error happened here -> ' + error.message),
-      () => console.log('Observable was completed!')
-    );
+    this.customObservableSubscription = customIntervalObservable
+      .pipe(
+        filter((value: number) => value % 2 === 0),
+        map((value: number) => 'Round ' + (value + 1)))
+      .subscribe(
+        (value: string) => console.log(value),
+        (error: Error) => alert('An error happened here -> ' + error.message),
+        () => console.log('Observable was completed!')
+      );
   }
 
   ngOnDestroy(): void {
