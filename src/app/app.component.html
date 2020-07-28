@@ -26,7 +26,10 @@
               [value]="gender">{{ gender }}
           </label>
         </div>
-        <button class="btn btn-primary" type="submit">Submit</button>
+        <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="signupForm.invalid">Submit</button>
       </form>
     </div>
   </div>
