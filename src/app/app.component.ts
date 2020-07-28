@@ -14,8 +14,13 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.signupForm = new FormGroup({
       'userData': new FormGroup({
-        'username': new FormControl(null, [ Validators.required, this.forbiddenNames.bind(this) ]),
-        'email': new FormControl(null, [ Validators.email, Validators.required ]),
+        'username': new FormControl(
+          null,
+          [ Validators.required, this.forbiddenNames.bind(this) ]),
+        'email': new FormControl(
+          null,
+          [ Validators.email, Validators.required ],
+          [ this.forbiddenEmails ]),
       }),
       'gender': new FormControl('not-specified'),
       'hobbies': new FormArray([]),
@@ -41,5 +46,18 @@ export class AppComponent implements OnInit {
     }
 
     return null;
+  }
+
+  forbiddenEmails(control: FormControl): Promise<any> {
+    return new Promise<any>((resolve) => {
+      setTimeout(() => {
+        if (control.value === 't@t.com') {
+          resolve({ emailIsForbidden: true });
+          return;
+        }
+
+        resolve(null);
+      }, 1500);
+    });
   }
 }
