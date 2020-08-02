@@ -41,4 +41,9 @@ export class ShoppingListService {
   private emitIngredientsChangedEvent(): void {
     this.ingredientsChangedEvent.next(this.getIngredients());
   }
+
+  deleteIngredient(editedIngredientId: number): void {
+    this.ingredients.splice(editedIngredientId, 1);
+    this.emitIngredientsChangedEvent();
+  }
 }

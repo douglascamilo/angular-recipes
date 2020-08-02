@@ -30,17 +30,20 @@
         <div class="col-xl-12 btn-group">
           <button
               type="submit"
-              class="btn btn-success rounded"
+              class="btn btn-success rounded mr-2"
               [disabled]="form.invalid">{{ editMode ? 'Update': 'Add' }}</button>
 
           <button
               type="button"
-              class="btn btn-danger rounded mx-2">Delete</button>
+              class="btn btn-danger rounded"
+              *ngIf="editMode"
+              (click)="onDelete()">Delete</button>
 
           <button
               type="button"
               class="btn btn-primary rounded"
-              (click)="resetForm()">Clear</button>
+              [ngClass]="{ 'ml-2': editMode }"
+              (click)="onClear()">Clear</button>
         </div>
       </div>
     </form>
