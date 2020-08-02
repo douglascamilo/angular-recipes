@@ -33,6 +33,11 @@ export class ShoppingListService {
     this.emitIngredientsChangedEvent();
   }
 
+  updateIngredient(ingredientId: number, ingredient: Ingredient): void {
+    this.ingredients[ingredientId] = ingredient;
+    this.emitIngredientsChangedEvent();
+  }
+
   private emitIngredientsChangedEvent(): void {
     this.ingredientsChangedEvent.next(this.getIngredients());
   }
