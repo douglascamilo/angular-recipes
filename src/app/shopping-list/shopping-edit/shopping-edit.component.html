@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xl-12">
-    <form (ngSubmit)="addNewIngredient(formElement)" #formElement="ngForm">
+    <form (ngSubmit)="addNewIngredient(form)" #form="ngForm">
       <div class="row">
         <div class="col-sm-5 form-group">
           <label for="name">Name</label>
@@ -31,7 +31,7 @@
           <button
               type="submit"
               class="btn btn-success rounded"
-              [disabled]="formElement.invalid">Add</button>
+              [disabled]="form.invalid">Add</button>
 
           <button
               type="button"
