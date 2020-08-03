@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RecipeService } from '../recipe.service';
 import { Ingredient } from '../../shared/model/ingredient';
 
@@ -34,10 +34,7 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onAddIngredient(): void {
-    this.getIngredientsControl().push(new FormGroup({
-      name: new FormControl(),
-      amount: new FormControl()
-    }));
+    this.getIngredientsControl().push(this.createIngredientFormGroup());
   }
 
   private initForm(): void {
@@ -55,19 +52,26 @@ export class RecipeEditComponent implements OnInit {
       if (recipe.ingredients) {
         recipe.ingredients
           .forEach((ingredient: Ingredient) => {
-            recipeIngredients.push(new FormGroup({
-              name: new FormControl(ingredient.name),
-              amount: new FormControl(ingredient.amount)
-            }));
+            recipeIngredients.push(this.createIngredientFormGroup(ingredient));
           });
       }
     }
 
     this.recipeForm = new FormGroup({
-      name: new FormControl(recipeName),
-      imagePath: new FormControl(recipeImagePath),
-      description: new FormControl(recipeDescription),
+      name: new FormControl(recipeName, Validators.required),
+      imagePath: new FormControl(recipeImagePath, Validators.required),
+      description: new FormControl(recipeDescription, Validators.required),
       ingredients: recipeIngredients
+    });
+  }
+
+  private createIngredientFormGroup(ingredient?: Ingredient): FormGroup {
+    return new FormGroup({
+      name: new FormControl(ingredient?.name, Validators.required),
+      amount: new FormControl(ingredient?.amount, [
+        Validators.required,
+        Validators.pattern(/^[1-9]+[0-9]*$/)
+      ])
     });
   }
 
