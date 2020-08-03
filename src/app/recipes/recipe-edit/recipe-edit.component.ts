@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { AbstractControl, FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { RecipeService } from '../recipe.service';
 import { Ingredient } from '../../shared/model/ingredient';
+import { Recipe } from '../recipe.model';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -30,11 +31,21 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.recipeForm.value);
+    const newRecipe: Recipe = this.recipeForm.getRawValue();
+    newRecipe.id = this.recipeId;
+
+    if (this.editMode) {
+      this.recipeService.updateRecipe(newRecipe);
+    } else {
+      this.recipeService.addRecipe(newRecipe);
+    }
   }
 
   onAddIngredient(): void {
-    this.getIngredientsControl().push(this.createIngredientFormGroup());
+    const ingredientsControl = this.getIngredientsControl();
+    ingredientsControl.push(this.createIngredientFormGroup());
+
+    console.log(ingredientsControl);
   }
 
   private initForm(): void {
