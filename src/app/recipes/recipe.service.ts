@@ -8,10 +8,11 @@ import { ShoppingListService } from '../shopping-list/shopping-list.service';
   providedIn: 'root'
 })
 export class RecipeService {
+  recipeId = 1;
 
   private recipes: Recipe[] = [
     new Recipe(
-      1,
+      this.recipeId++,
       'Tasty Schnitzel',
       'A super-tasty Schnitzel - just awesome!',
       'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
@@ -20,7 +21,7 @@ export class RecipeService {
         new Ingredient('French Fries', 20),
       ]),
     new Recipe(
-      2,
+      this.recipeId++,
       'Big Fat Burger',
       'What else you need to say?',
       'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
