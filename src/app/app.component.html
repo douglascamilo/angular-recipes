@@ -12,7 +12,7 @@
           </span>
           <strong>{{ server.name }}</strong>
           | {{ server.instanceType | uppercase }}
-          | {{ server.started | date:'yyyy-MMM-dd' }}
+          | {{ server.started | date:'fullDate' | uppercase }}
         </li>
       </ul>
     </div>
