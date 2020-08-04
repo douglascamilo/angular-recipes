@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Recipe } from './recipe.model';
 import { Ingredient } from '../shared/model/ingredient';
 import { ShoppingListService } from '../shopping-list/shopping-list.service';
-import { Subject } from 'rxjs';
+import { Observable, Subject, Subscriber } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +66,22 @@ export class RecipeService {
   getRecipe(id: number): Recipe {
     return this.getRecipes()
       .find((recipe: Recipe) => recipe.id === id);
+  }
+
+  deleteRecipe(recipe: Recipe): Observable<void> {
+    return new Observable<void>(subscriber => {
+      const recipeIndex = this.recipes.indexOf(recipe);
+      const recipeDeleted = this.recipes.splice(recipeIndex, 1);
+
+      if (recipeDeleted?.length !== 0) {
+        subscriber.next();
+        subscriber.complete();
+        this.emitRecipesChangedEvent();
+        return;
+      }
+
+      subscriber.error(new Error(`It wasn't possible to delete recipe with id: ${ recipe.id }`));
+    });
   }
 
   private emitRecipesChangedEvent(): void {
