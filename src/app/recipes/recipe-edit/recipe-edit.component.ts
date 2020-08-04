@@ -57,6 +57,10 @@ export class RecipeEditComponent implements OnInit {
     this.navigateBack();
   }
 
+  onDeleteIngredient(ingredientIndex: number): void {
+    this.getIngredientsControl().splice(ingredientIndex, 1);
+  }
+
   private initForm(): void {
     let recipeName = '';
     let recipeImagePath = '';
