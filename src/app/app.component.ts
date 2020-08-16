@@ -10,7 +10,7 @@ import { Post } from './post-model';
 })
 export class AppComponent implements OnInit {
   private readonly POSTS_ENDPOINT = 'https://ng-complete-guide-bb985.firebaseio.com/posts.json';
-  loadedPosts = [];
+  loadedPosts: Post[] = [];
 
   constructor(
     private http: HttpClient
@@ -50,6 +50,6 @@ export class AppComponent implements OnInit {
 
           return postsArray;
         }))
-      .subscribe((posts: Post[]) => console.log(posts));
+      .subscribe((posts: Post[]) => this.loadedPosts = posts);
   }
 }
