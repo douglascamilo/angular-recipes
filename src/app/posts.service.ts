@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Post } from './post-model';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -23,20 +23,29 @@ export class PostsService {
     return this.http
       .get<{ [key: string]: Post }>(this.POSTS_ENDPOINT)
       .pipe(
-        map(response => {
-          const postsArray: Post[] = [];
-
-          for (const key in response) {
-            if (response.hasOwnProperty(key)) {
-              postsArray.push({ id: key, ...response[key] });
-            }
-          }
-
-          return postsArray;
-        }));
+        map(this.mapToPost),
+        catchError(this.logErrorAndReturn)
+      );
   }
 
   deletePosts(): Observable<any> {
     return this.http.delete(this.POSTS_ENDPOINT);
+  }
+
+  private mapToPost(response: {[p: string]: Post}) {
+    const postsArray: Post[] = [];
+
+    for (const key in response) {
+      if (response.hasOwnProperty(key)) {
+        postsArray.push({ id: key, ...response[key] });
+      }
+    }
+
+    return postsArray;
+  }
+
+  private logErrorAndReturn(error: any) {
+    console.error(error);
+    return throwError(error);
   }
 }
