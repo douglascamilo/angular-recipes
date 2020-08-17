@@ -37,6 +37,10 @@ export class AppComponent implements OnInit {
       .subscribe(() => this.fetchPosts());
   }
 
+  onHandleError() {
+    this.error = null;
+  }
+
   private fetchPosts() {
     this.isFetching = true;
     this.error = null;
