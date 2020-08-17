@@ -35,4 +35,8 @@ export class PostsService {
           return postsArray;
         }));
   }
+
+  deletePosts(): Observable<any> {
+    return this.http.delete(this.POSTS_ENDPOINT);
+  }
 }
