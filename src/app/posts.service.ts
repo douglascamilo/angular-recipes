@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Post } from './post-model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
@@ -24,10 +24,8 @@ export class PostsService {
       .get<{ [key: string]: Post }>(
         this.POSTS_ENDPOINT,
         {
-          headers: new HttpHeaders({
-            'Custom-Header': 'Hello',
-            'Custom-Header2': 'Hello2'
-          })
+          headers: this.getFetchPostsHeaders(),
+          params: this.getFetchPostsQueryParams()
         })
       .pipe(
         map(this.mapToPost),
@@ -35,11 +33,22 @@ export class PostsService {
       );
   }
 
+  private getFetchPostsQueryParams() {
+    return new HttpParams()
+        .set('print', 'pretty');
+  }
+
+  private getFetchPostsHeaders() {
+    return new HttpHeaders()
+        .append('Custom-Header', 'Hello')
+        .append('Custom-Header2', 'Hello2');
+  }
+
   deletePosts(): Observable<any> {
     return this.http.delete(this.POSTS_ENDPOINT);
   }
 
-  private mapToPost(response: {[p: string]: Post}) {
+  private mapToPost(response: { [p: string]: Post }) {
     const postsArray: Post[] = [];
 
     for (const key in response) {
