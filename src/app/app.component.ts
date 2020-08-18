@@ -34,9 +34,7 @@ export class AppComponent implements OnInit {
   onClearPosts() {
     this.postsService
       .deletePosts()
-      .subscribe({
-        complete: () => this.fetchPosts()
-      });
+      .subscribe(() => this.fetchPosts());
   }
 
   onHandleError() {

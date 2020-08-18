@@ -14,13 +14,11 @@ export class PostsService {
     private http: HttpClient
   ) { }
 
-  createAndStorePost(postData: Post): Observable<HttpResponse<{ id: string }>> {
+  createAndStorePost(postData: Post): Observable<{ id: string }> {
     return this.http
       .post<{ id: string }>(
         this.POSTS_ENDPOINT,
-        postData,
-        { observe: 'response' })
-      .pipe(tap(console.log));
+        postData);
   }
 
   fetchPosts(): Observable<Post[]> {
@@ -38,17 +36,7 @@ export class PostsService {
   }
 
   deletePosts(): Observable<any> {
-    return this.http
-      .delete(this.POSTS_ENDPOINT, { observe: 'events' })
-      .pipe(tap((event: HttpEvent<any>) => {
-        if (event.type === HttpEventType.Response) {
-          console.log(event);
-
-          if (event.body) {
-            console.log(event.body);
-          }
-        }
-      }));
+    return this.http.delete(this.POSTS_ENDPOINT);
   }
 
   private getFetchPostsQueryParams() {
