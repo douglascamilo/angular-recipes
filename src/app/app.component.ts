@@ -34,7 +34,9 @@ export class AppComponent implements OnInit {
   onClearPosts() {
     this.postsService
       .deletePosts()
-      .subscribe(() => this.fetchPosts());
+      .subscribe({
+        complete: () => this.fetchPosts()
+      });
   }
 
   onHandleError() {
@@ -57,6 +59,6 @@ export class AppComponent implements OnInit {
             this.isFetching = false;
             this.error = error.message;
           });
-    }, 1500);
+    }, 500);
   }
 }

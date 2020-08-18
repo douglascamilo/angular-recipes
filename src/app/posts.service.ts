@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Post } from './post-model';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +14,13 @@ export class PostsService {
     private http: HttpClient
   ) { }
 
-  createAndStorePost(postData: Post): Observable<{ id: string }> {
+  createAndStorePost(postData: Post): Observable<HttpResponse<{ id: string }>> {
     return this.http
-      .post<{ id: string }>(this.POSTS_ENDPOINT, postData);
+      .post<{ id: string }>(
+        this.POSTS_ENDPOINT,
+        postData,
+        { observe: 'response' })
+      .pipe(tap(console.log));
   }
 
   fetchPosts(): Observable<Post[]> {
@@ -33,6 +37,20 @@ export class PostsService {
       );
   }
 
+  deletePosts(): Observable<any> {
+    return this.http
+      .delete(this.POSTS_ENDPOINT, { observe: 'events' })
+      .pipe(tap((event: HttpEvent<any>) => {
+        if (event.type === HttpEventType.Response) {
+          console.log(event);
+
+          if (event.body) {
+            console.log(event.body);
+          }
+        }
+      }));
+  }
+
   private getFetchPostsQueryParams() {
     return new HttpParams()
         .set('print', 'pretty');
@@ -42,10 +60,6 @@ export class PostsService {
     return new HttpHeaders()
         .append('Custom-Header', 'Hello')
         .append('Custom-Header2', 'Hello2');
-  }
-
-  deletePosts(): Observable<any> {
-    return this.http.delete(this.POSTS_ENDPOINT);
   }
 
   private mapToPost(response: { [p: string]: Post }) {
