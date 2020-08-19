@@ -9,21 +9,10 @@ export class AuthInterceptorService implements HttpInterceptor {
       headers: this.addHeaders(req)
     });
 
-    return next.handle(newRequest)
-        .pipe(tap(this.logResponse));
+    return next.handle(newRequest);
   }
 
   private addHeaders(req: HttpRequest<any>) {
     return req.headers.append('Auth', '321');
-  }
-
-  private logResponse(event: HttpEvent<any>) {
-    if (event.type === HttpEventType.Response) {
-      console.log(`[${event.status} ${event.statusText}] ${event.url}`);
-
-      if (event.body) {
-        console.log(event.body);
-      }
-    }
   }
 }
