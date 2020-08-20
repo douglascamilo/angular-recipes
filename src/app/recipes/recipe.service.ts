@@ -9,29 +9,9 @@ import { Observable, Subject, Subscriber } from 'rxjs';
   providedIn: 'root'
 })
 export class RecipeService {
+  private recipeId = 1;
+  private recipes: Recipe[] = [];
   recipesChanged = new Subject<Recipe[]>();
-  recipeId = 1;
-
-  private recipes: Recipe[] = [
-    new Recipe(
-      'Tasty Schnitzel',
-      'A super-tasty Schnitzel - just awesome!',
-      'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
-      [
-        new Ingredient('Meat', 1),
-        new Ingredient('French Fries', 20),
-      ],
-      this.recipeId++),
-    new Recipe(
-      'Big Fat Burger',
-      'What else you need to say?',
-      'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
-      [
-        new Ingredient('Buns', 2),
-        new Ingredient('Meat', 1),
-      ],
-      this.recipeId++)
-  ];
 
   constructor(
     private shoppingListService: ShoppingListService
@@ -52,6 +32,7 @@ export class RecipeService {
 
   setRecipes(recipes: Recipe[]): void {
     this.recipes = recipes;
+    this.updateRecipeId();
     this.emitRecipesChangedEvent();
   }
 
@@ -91,5 +72,17 @@ export class RecipeService {
 
   private emitRecipesChangedEvent(): void {
     this.recipesChanged.next(this.getRecipes());
+  }
+
+  private updateRecipeId(): void {
+    this.recipeId = 0;
+
+    this.recipes.forEach(recipe => {
+      if (this.recipeId < recipe.id) {
+        this.recipeId = recipe.id;
+      }
+    });
+
+    this.recipeId++;
   }
 }
