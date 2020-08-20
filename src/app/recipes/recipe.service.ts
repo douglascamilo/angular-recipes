@@ -50,6 +50,11 @@ export class RecipeService {
     this.emitRecipesChangedEvent();
   }
 
+  setRecipes(recipes: Recipe[]): void {
+    this.recipes = recipes;
+    this.emitRecipesChangedEvent();
+  }
+
   updateRecipe(updatedRecipe: Recipe): void {
     const recipeIndex = this.recipes.findIndex(recipe => recipe.id === updatedRecipe.id);
 
