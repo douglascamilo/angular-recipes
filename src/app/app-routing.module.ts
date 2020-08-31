@@ -6,15 +6,25 @@ import { NoSelectedRecipeComponent } from './recipes/no-selected-recipe/no-selec
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
 import { IsRecipeIdValidService } from './recipes/resolver/is-recipe-id-valid.service';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
+import { RecipeResolverService } from './recipes/recipe-resolver.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'recipes', pathMatch: 'full' },
   { path: 'recipes', component: RecipesComponent, children:
       [
-        { path: '', component: NoSelectedRecipeComponent },
+        { path: '', component: NoSelectedRecipeComponent, resolve: [ RecipeResolverService ] },
         { path: 'new', component: RecipeEditComponent },
-        { path: ':id', component: RecipeDetailComponent, canActivate: [ IsRecipeIdValidService ] },
-        { path: ':id/edit', component: RecipeEditComponent },
+        {
+          path: ':id',
+          component: RecipeDetailComponent,
+          // canActivate: [ IsRecipeIdValidService ],
+          resolve: [ RecipeResolverService ]
+        },
+        {
+          path: ':id/edit',
+          component: RecipeEditComponent,
+          resolve: [ RecipeResolverService ]
+        },
       ]
   },
   { path: 'shopping-list', component: ShoppingListComponent },

@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { MonoTypeOperatorFunction, Observable, OperatorFunction } from 'rxjs';
+import { Ingredient } from './model/ingredient';
 
 @Injectable({
   providedIn: 'root'
@@ -24,17 +26,23 @@ export class DataStorageService {
       .subscribe();
   }
 
-  fetchRecipes(): void {
-    this.http
+  fetchRecipes(): Observable<Recipe[]> {
+    return this.http
       .get<Recipe[]>(this.URL)
-      .pipe(map(this.transformRecipesResponse()))
-      .subscribe(recipes => this.recipeService.setRecipes(recipes));
+      .pipe(this.transformRecipesResponse())
+      .pipe(this.sendDataToRecipeService());
   }
 
-  private transformRecipesResponse(): (recipes) => any {
-    return recipes =>
+  private sendDataToRecipeService(): MonoTypeOperatorFunction<Recipe[]> {
+    return tap((recipes: Recipe[]) => {
+      this.recipeService.setRecipes(recipes);
+    });
+  }
+
+  private transformRecipesResponse(): OperatorFunction<Recipe[], Recipe[]> {
+    return map((recipes: Recipe[]) =>
       recipes.map(recipe => {
         return { ...recipe, ingredients: recipe.ingredients || [] };
-      });
+      }));
   }
 }
