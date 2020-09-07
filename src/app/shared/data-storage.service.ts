@@ -4,7 +4,6 @@ import { RecipeService } from '../recipes/recipe.service';
 import { Recipe } from '../recipes/recipe.model';
 import { map, tap } from 'rxjs/operators';
 import { MonoTypeOperatorFunction, Observable, OperatorFunction } from 'rxjs';
-import { Ingredient } from './model/ingredient';
 
 @Injectable({
   providedIn: 'root'
