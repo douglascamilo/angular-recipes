@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { User } from './user';
 import { AuthService } from './auth.service';
 import { AuthHelper } from './auth-helper.service';
+import { AlertService } from '../shared/alert/alert.service';
 
 @Component({
   selector: 'app-auth',
@@ -12,11 +13,13 @@ import { AuthHelper } from './auth-helper.service';
 })
 export class AuthComponent implements OnInit {
   isLoginMode = true;
+  isLoading = false;
   authForm: FormGroup;
 
   constructor(
     private helper: AuthHelper,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertService: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -28,6 +31,8 @@ export class AuthComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.isLoading = true;
+
     const dataForm = this.authForm.getRawValue();
     const user = new User(dataForm.email, dataForm.password);
 
@@ -36,8 +41,15 @@ export class AuthComponent implements OnInit {
     } else {
       this.authService.signUp(user)
         .subscribe(
-          authResponse => console.log(authResponse),
-          error => console.error(error));
+          authResponse => {
+            this.isLoading = false;
+            this.authForm.reset();
+            this.alertService.onSuccess('User was created successfully!');
+          },
+          error => {
+            this.alertService.onError('An error has occurred!');
+            this.isLoading = false;
+          });
     }
   }
 }

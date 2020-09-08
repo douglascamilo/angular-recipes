@@ -1,6 +1,12 @@
 <div class="row mt-5">
   <div class="col-md-12 col-lg-6 offset-lg-3">
-    <form [formGroup]="authForm" (ngSubmit)="onSubmit()">
+    <app-alert></app-alert>
+
+    <div class="text-center mt-5" *ngIf="isLoading">
+      <app-loading-spinner class="text-center"></app-loading-spinner>
+    </div>
+
+    <form [formGroup]="authForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
       <div class="form-group">
         <label for="email">E-Mail</label>
         <input
